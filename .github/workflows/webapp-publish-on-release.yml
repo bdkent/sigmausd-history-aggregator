@@ -44,20 +44,20 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
- #     - name: Deploy package to digitalocean
- #       uses: appleboy/ssh-action@master
- #       env:
- #           GITHUB_USERNAME: ${{ github.actor }}
- #           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
- #           GITHUB_REPO: ${{ github.repository }}
- #       with:
- #         host: ${{ secrets.DO_HOST }}
- #         username: ${{ secrets.DO_USERNAME }}
- #         key: ${{ secrets.DO_KEY }}
- #         port: ${{ secrets.DO_PORT }}
- #         envs: GITHUB_USERNAME, GITHUB_TOKEN, GITHUB_REPO
- #         script: |
- #           docker login ghcr.io -u $GITHUB_USERNAME -p $GITHUB_TOKEN
- #           docker pull ghcr.io/$GITHUB_REPO:latest
- #           docker stop $(docker ps -a -q --filter "label=$GITHUB_REPO")
- #           docker run -l $GITHUB_REPO -v /mnt/sigmausd_data:/sigmausd_data -v ~/.ssh:/root/.ssh:ro -dit ghcr.io/$GITHUB_REPO:latest
+     - name: Deploy package to digitalocean
+       uses: appleboy/ssh-action@master
+       env:
+           GITHUB_USERNAME: ${{ github.actor }}
+           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+           GITHUB_REPO: ${{ github.repository }}
+       with:
+         host: ${{ secrets.DO_HOST }}
+         username: ${{ secrets.DO_USERNAME }}
+         key: ${{ secrets.DO_KEY }}
+         port: ${{ secrets.DO_PORT }}
+         envs: GITHUB_USERNAME, GITHUB_TOKEN, GITHUB_REPO
+         script: |
+           docker login ghcr.io -u $GITHUB_USERNAME -p $GITHUB_TOKEN
+           docker pull ghcr.io/$GITHUB_REPO:latest
+           docker stop $(docker ps -a -q --filter "label=$GITHUB_REPO")
+           docker run -l $GITHUB_REPO -v /mnt/sigmausd_data:/sigmausd_data -v ~/.ssh:/root/.ssh:ro -dit ghcr.io/$GITHUB_REPO:latest
