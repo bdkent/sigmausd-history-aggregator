@@ -44,7 +44,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          
+
       - name: Deploy package to digitalocean
         uses: appleboy/ssh-action@master
         env:
@@ -62,3 +62,4 @@ jobs:
             docker pull ghcr.io/$GITHUB_REPO:latest
             docker stop $(docker ps -a -q --filter "label=$GITHUB_REPO")
             docker run -l $GITHUB_REPO -v /mnt/sigmausd_data:/sigmausd_data -v ~/.ssh:/root/.ssh:ro -dit ghcr.io/$GITHUB_REPO:latest
+
